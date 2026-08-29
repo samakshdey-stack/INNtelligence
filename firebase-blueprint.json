@@ -1,0 +1,100 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with assigned hotel staff role and credentials",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Firebase Auth UID of the user",
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the staff member",
+          "maxLength": 256
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Full name of the user",
+          "maxLength": 100
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Avatar URL",
+          "maxLength": 1000
+        },
+        "role": {
+          "type": "string",
+          "description": "Hospitality role within INNtelligence",
+          "enum": [
+            "General Manager",
+            "Front Desk Lead",
+            "Housekeeping Supervisor",
+            "Revenue Strategist",
+            "Night Auditor"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of account registration"
+        },
+        "lastLogin": {
+          "type": "string",
+          "description": "ISO timestamp of last active login"
+        }
+      },
+      "required": ["id", "email", "displayName", "role", "createdAt"]
+    },
+    "AccessRequest": {
+      "title": "AccessRequest",
+      "description": "Early access executive cohort requests from landing page",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique request ID",
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "fullName": {
+          "type": "string",
+          "description": "Executive requester name",
+          "maxLength": 100
+        },
+        "workEmail": {
+          "type": "string",
+          "format": "email",
+          "description": "Corporate or property work email",
+          "maxLength": 256
+        },
+        "propertyName": {
+          "type": "string",
+          "description": "Hotel property name",
+          "maxLength": 150
+        },
+        "roomCount": {
+          "type": "string",
+          "description": "Property key inventory bracket",
+          "maxLength": 50
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Submission ISO timestamp"
+        }
+      },
+      "required": ["id", "fullName", "workEmail", "propertyName", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profiles and assigned role permissions"
+    },
+    "/access_requests/{requestId}": {
+      "schema": { "$ref": "#/entities/AccessRequest" },
+      "description": "Early access applications submitted through public portal"
+    }
+  }
+}
